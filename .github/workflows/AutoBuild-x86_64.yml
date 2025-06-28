@@ -117,6 +117,10 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Set timezone
+      run: |
+        sudo timedatectl set-timezone "Asia/Shanghai"
+
     - name: Load Custom Variables
       run: |
         if [ -n "${{ github.event.inputs.Tempoary_CONFIG }}" ]
@@ -188,7 +192,6 @@ jobs:
         sudo -E systemctl daemon-reload
         sudo -E apt -y autoremove --purge
         sudo -E apt clean
-        sudo timedatectl set-timezone "Asia/Shanghai"
 
     - name: Clone Openwrt Source Code
       run: |
