@@ -217,14 +217,6 @@ Firmware_Diy_Other() {
 	CD ${WORK}
 	if [[ ${AutoBuild_Features} == true ]]
 	then
-		if [[ -n ${Author_URL} ]]
-		then
-			cat >> ${CONFIG_TEMP} <<EOF
-
-CONFIG_KERNEL_BUILD_USER="${Author}"
-CONFIG_KERNEL_BUILD_DOMAIN="${Author_URL}"
-EOF
-		fi
 		if [[ ${AutoBuild_Features_Patch} == true ]]
 		then
 			case "${OP_AUTHOR}/${OP_REPO}:${OP_BRANCH}" in
