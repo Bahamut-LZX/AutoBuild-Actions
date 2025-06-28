@@ -21,7 +21,7 @@ Firmware_Diy_Core() {
 	Default_Flag=AUTO
 	# 固件标签 (名称后缀), 适用不同配置文件, AUTO: [自动识别]
 	
-	Default_IP="192.168.1.1"
+	Default_IP="192.168.2.1"
 	# 固件 IP 地址
 	
 	Default_Title="Powered by AutoBuild-Actions"
@@ -143,30 +143,18 @@ EOF
 			sed -i -- 's:/bin/ash:'/bin/bash':g' ${BASE_FILES}/etc/passwd
 			case "${CONFIG_FILE}" in
 			x86_64)
-				# sed -i "s?/bin/login?/usr/libexec/login.sh?g" ${FEEDS_PKG}/ttyd/files/ttyd.config
-				AddPackage passwall xiaorouji openwrt-passwall main
-				# AddPackage passwall xiaorouji openwrt-passwall2 main
-				rm -r ${FEEDS_LUCI}/luci-app-passwall
-				AddPackage other WROIATE luci-app-socat main
-    			#rm -r ${FEEDS_LUCI}/luci-app-socat
-				AddPackage other sbwml luci-app-mosdns v5
-				mosdns_version="5.3.3"
-				wget --quiet --no-check-certificate -P /tmp \
-					https://github.com/IrineSistiana/mosdns/releases/download/v${mosdns_version}/mosdns-linux-amd64.zip
-				unzip /tmp/mosdns-linux-amd64.zip -d /tmp
-				Copy /tmp/mosdns ${BASE_FILES}/usr/bin
-				chmod +x ${BASE_FILES}/usr/bin
-				sed -i "s?+mosdns ??g" ${WORK}/package/other/luci-app-mosdns/luci-app-mosdns/Makefile
-				sed -i "s?+v2ray-geoip ??g" ${WORK}/package/other/luci-app-mosdns/luci-app-mosdns/Makefile
-				sed -i "s?+v2ray-geosite ??g" ${WORK}/package/other/luci-app-mosdns/luci-app-mosdns/Makefile
-				rm -r ${WORK}/package/other/luci-app-mosdns/mosdns
-				
-				Copy ${CustomFiles}/socat.Makefile ${FEEDS_PKG}/socat Makefile
-				rm -r ${FEEDS_PKG}/socat/files
-				Copy ${CustomFiles}/speedtest ${BASE_FILES}/usr/bin
-				chmod +x ${BASE_FILES}/usr/bin/speedtest
-				
-				sed -i '/PKG_FIXUP/d' ${WORK}/feeds/packages/libs/libffi/Makefile
+				# Modify ttyd config
+				sed -i "s?/bin/login?/usr/libexec/login.sh?g" ${FEEDS_PKG}/ttyd/files/ttyd.config
+				# Add default lan port
+				sed -i "/[ -d /sys/class/net/eth1 ] && ucidef_set_interface_wan 'eth1'/a\[ -d /sys/class/net/eth2 ] && ucidef_set_interface_lan 'eth0 eth2'" ${BASE_FILES}/etc/board.d/99-default_network
+				#set llvm.download-ci-llvm=false
+				sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ${FEEDS_PKG}/lang/rust/Makefile
+				# Add packages
+				PKG_Add_Config luci-app-adguardhome
+				PKG_Add_Config luci-app-netdata
+				PKG_Add_Config luci-app-openclash
+				PKG_Add_Config luci-app-smartdns
+
 			;;
 			esac
 		;;
@@ -197,24 +185,5 @@ EOF
 		esac
 	;;
 	esac
-	case "${TARGET_PROFILE}" in
-	x86_64)
-		Copy ${CustomFiles}/Depends/cpuset ${BASE_FILES}/bin
-		ReleaseDL https://api.github.com/repos/nxtrace/NTrace-core/releases/latest nexttrace_linux_amd64 ${BASE_FILES}/bin nexttrace
 
-		hysteria_version="2.6.1"
-		wstunnel_version="9.2.3"
-		wget --quiet --no-check-certificate -P /tmp \
-			https://github.com/apernet/hysteria/releases/download/app%2Fv${hysteria_version}/hysteria-linux-amd64
-		wget --quiet --no-check-certificate -P /tmp \
-			https://github.com/erebe/wstunnel/releases/download/v${wstunnel_version}/wstunnel_${wstunnel_version}_linux_amd64.tar.gz
-		tar -xvzf /tmp/wstunnel_${wstunnel_version}_linux_amd64.tar.gz -C /tmp
-		Copy /tmp/wstunnel ${BASE_FILES}/usr/bin
-		Copy /tmp/hysteria-linux-amd64 ${BASE_FILES}/usr/bin hysteria
-		chmod +x ${BASE_FILES}/usr/bin/hysteria ${BASE_FILES}/usr/bin/wstunnel
-
-		# ReleaseDL https://api.github.com/repos/Loyalsoldier/v2ray-rules-dat/releases/latest geosite.dat ${BASE_FILES}/usr/v2ray
-		# ReleaseDL https://api.github.com/repos/Loyalsoldier/v2ray-rules-dat/releases/latest geoip.dat ${BASE_FILES}/usr/v2ray
-	;;
-	esac
 }

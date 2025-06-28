@@ -26,11 +26,11 @@ on:
     inputs:
       Tempoary_CONFIG:
         description: '配置文件'
-        default: 'x86_64-Next'
+        default: 'x86_64'
         type: choice
         options:
           - 'x86_64'
-          - 'x86_64-AP'
+          # - 'x86_64-AP'
       Tempoary_FLAG:
         description: '固件标签'
         default: 'AUTO'
@@ -60,7 +60,7 @@ on:
 ### 环境变量设置
 env:
 # 编译时调用的 [.config] 文件名称
-  CONFIG_FILE: x86_64-Next
+  CONFIG_FILE: x86_64
 # 源码仓库:分支
   DEFAULT_SOURCE: immortalwrt/immortalwrt:master
 # 删除无用文件以增加编译空间
@@ -238,7 +238,8 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        make -j4 || make -j1 V=s
+        echo -e "$(nproc) thread compile"
+        make -j$(nproc) || make -j1 V=s
         [ "$?" == 0 ] && echo "Compile_Result=true" >> $GITHUB_ENV || echo "Compile_Result=false" >> $GITHUB_ENV
 
     - name: Checkout Firmware
@@ -290,9 +291,7 @@ jobs:
     - name: Delete old Workflow Runs
       continue-on-error: true
       if: env.DELETE_OLD_WORKFLOW == 'true' && !cancelled()
-      uses: Mattraks/delete-workflow-runs@v2
+      uses: Mattraks/delete-workflow-runs@main
       with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          retain_days: 3
-          keep_minimum_runs: 0
+        retain_days: 0
+        keep_minimum_runs: 2

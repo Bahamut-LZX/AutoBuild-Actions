@@ -134,8 +134,8 @@ Firmware_Diy_Main() {
 	chmod 777 -R ${Scripts} ${CustomFiles}
 	if [[ ${AutoBuild_Features} == true ]]
 	then
-		AddPackage other Hyy2001X AutoBuild-Packages master
-		echo -e "\nCONFIG_PACKAGE_luci-app-autoupdate=y" >> ${CONFIG_FILE}
+		AddPackage other Bahamut-LZX AutoBuild-Packages master
+		PKG_Add_Config luci-app-autoupdate
 		AutoUpdate_Version=$(awk -F '=' '/Version/{print $2}' $(PKG_Finder d package AutoBuild-Packages)/autoupdate/files/bin/autoupdate | awk 'NR==1')
 		cat >> $(PKG_Finder d package AutoBuild-Packages)/autoupdate/files/etc/autoupdate/default <<EOF
 Author=${Author}
@@ -152,7 +152,7 @@ OP_BRANCH=${OP_BRANCH}
 EOF
 		Copy ${CustomFiles}/Depends/tools ${BASE_FILES}/bin
 		Copy ${CustomFiles}/Depends/profile ${BASE_FILES}/etc
-		Copy ${CustomFiles}/Depends/base-files-essential ${BASE_FILES}/lib/upgrade/keep.d
+		# Copy ${CustomFiles}/Depends/base-files-essential ${BASE_FILES}/lib/upgrade/keep.d
 		case "${OP_AUTHOR}/${OP_REPO}" in
 		coolsnowwolf/lede)
 			Copy ${CustomFiles}/Depends/coremark.sh $(PKG_Finder d "package feeds" coremark)
@@ -449,6 +449,10 @@ PKG_Finder() {
 	fi
 	Result=$(find $2 -name $3 -type $1 -exec echo {} \; 2> /dev/null)
 	[[ -n ${Result} ]] && echo "${Result}"
+}
+
+PKG_Add_Config() {
+	echo -e "\nCONFIG_PACKAGE_$1=y" >> ${CONFIG_TEMP}
 }
 
 CD() {
