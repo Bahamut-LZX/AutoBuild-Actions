@@ -148,7 +148,7 @@ EOF
 				# Add default lan port
 				sed -i "/[ -d /sys/class/net/eth1 ] && ucidef_set_interface_wan 'eth1'/a\[ -d /sys/class/net/eth2 ] && ucidef_set_interface_lan 'eth0 eth2'" ${BASE_FILES}/etc/board.d/99-default_network
 				#set llvm.download-ci-llvm=false
-				sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ${FEEDS_PKG}/lang/rust/Makefile
+				sed -i 's/--set=llvm\.download-ci-llvm=true/--set=llvm.download-ci-llvm=false/' ${FEEDS_PKG}/rust/Makefile
 				# Add packages
 				PKG_Add_Config luci-app-adguardhome
 				PKG_Add_Config luci-app-netdata
