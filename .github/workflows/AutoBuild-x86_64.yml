@@ -8,6 +8,7 @@ name: x86_64
 
 on:
   repository_dispatch:
+   types: build_event
   ## Git Push 时触发编译(不要删除此行注释)
   push:
     branches: 
