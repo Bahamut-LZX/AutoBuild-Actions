@@ -8,7 +8,6 @@ name: x86_64
 
 on:
   repository_dispatch:
-   types: build_event
   ## Git Push 时触发编译(不要删除此行注释)
   push:
     branches: 
@@ -21,6 +20,9 @@ on:
   ## 重新点亮 Star 时触发编译(不要删除此行注释)
   #watch:
   #  types: [started]
+
+  workflow_call:
+    
   
   ### 界面控制部分 ( 以下内容请保持不变, 如有需要仅修改 options 选项 )
   workflow_dispatch:
