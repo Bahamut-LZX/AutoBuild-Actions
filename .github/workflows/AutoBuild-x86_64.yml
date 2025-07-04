@@ -303,6 +303,6 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ./API
         file_glob: true
-        tag: ${{ env.Compile_Date }}
+        tag: ${{ env.Release_Date }}
         overwrite: true
 
