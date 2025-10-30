@@ -157,6 +157,7 @@ EOF
 				PKG_Add_Config luci-app-netdata
 				PKG_Add_Config luci-app-openclash
 				PKG_Add_Config luci-app-smartdns
+				PKG_Add_Config luci-app-ddns
 
 			;;
 			esac
