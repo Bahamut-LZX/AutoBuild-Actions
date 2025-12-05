@@ -153,7 +153,7 @@ EOF
 				sed -i "/uci -q set openclash.config.enable=0/,+1d" ${FEEDS_LUCI}/luci-app-openclash/root/etc/uci-defaults/luci-openclash
 
 				# Add packages
-				AddPackage other sirpdboy luci-app-netspeedtest js
+				AddPackage other sirpdboy luci-app-netspeedtest master
 
 				# Add config
 				PKG_Add_Config luci-app-adguardhome

@@ -495,7 +495,7 @@ AddPackage() {
 
 	if [[ -z ${REPO_BRANCH} ]]
 	then
-		REPO_BRANCH=main
+		REPO_BRANCH=master
 	fi
 	ECHO "Downloading package [${PKG_NAME}] to ${PKG_DIR} ..."
 	git clone --depth 1 -b ${REPO_BRANCH} ${REPO_URL} ${PKG_DIR}/${PKG_NAME}/ > /dev/null 2>&1
