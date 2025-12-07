@@ -163,7 +163,7 @@ EOF
 				PKG_Add_Config luci-app-ddns
 				PKG_Add_Config ddns-scripts-aliyun
 				PKG_Add_Config ddns-scripts-huaweicloud
-				PKG_Add_Config luci-app-netspeedtest
+				#PKG_Add_Config luci-app-netspeedtest
 
 			;;
 			esac
