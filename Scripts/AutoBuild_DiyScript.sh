@@ -152,6 +152,9 @@ EOF
 				# delete openclah default disable when openwrt upgrade
 				sed -i "/uci -q set openclash.config.enable=0/,+1d" ${FEEDS_LUCI}/luci-app-openclash/root/etc/uci-defaults/luci-openclash
 
+				#disable luci-app-attendedsysupgrade
+				sed -i "/+luci-app-attendedsysupgrade/d" ${FEEDS_LUCI}/*/Makefile
+
 				# Add packages
 				AddPackage other sirpdboy luci-app-netspeedtest master
 
