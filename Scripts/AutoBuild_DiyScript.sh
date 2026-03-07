@@ -156,7 +156,7 @@ EOF
 				sed -i "/+luci-app-attendedsysupgrade/d" ${FEEDS_LUCI}/*/Makefile
 
 				# Add packages
-				AddPackage other sirpdboy luci-app-netspeedtest master
+				AddPackage other sirpdboy netspeedtest main
 
 				# Add config
 				PKG_Add_Config luci-app-adguardhome
