@@ -158,7 +158,7 @@ EOF
 				# Add packages
 				AddPackage other sirpdboy netspeedtest main
 
-				rm -r ${FEEDS_PKG}/../other/AutoBuild-Packages/luci-app-adguardhome
+				rm -r ${WORK}/package/other/AutoBuild-Packages/luci-app-adguardhome
 
 				# Add config
 				PKG_Add_Config luci-app-adguardhome
