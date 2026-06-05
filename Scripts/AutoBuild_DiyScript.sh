@@ -160,7 +160,7 @@ EOF
 
 				# Add config
 				PKG_Add_Config luci-app-adguardhome
-				PKG_Add_Config luci-app-netdata
+				# PKG_Add_Config luci-app-netdata
 				PKG_Add_Config luci-app-openclash
 				PKG_Add_Config luci-app-smartdns
 				PKG_Add_Config luci-app-smartdns_INCLUDE_WebUI
