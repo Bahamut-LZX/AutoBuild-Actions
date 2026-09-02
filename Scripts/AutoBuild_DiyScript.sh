@@ -155,6 +155,8 @@ EOF
 				#disable luci-app-attendedsysupgrade
 				sed -i "/+luci-app-attendedsysupgrade/d" ${FEEDS_LUCI}/*/Makefile
 
+				rm -r ${FEEDS_PKG}/open-app-filter
+
 				# Add packages
 				AddPackage other sirpdboy netspeedtest main
 				AddPackage OAF destan19 OpenAppFilter master
